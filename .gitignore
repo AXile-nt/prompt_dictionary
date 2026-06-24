@@ -1,0 +1,37 @@
+node_modules/
+dist/
+.env
+*.local
+.turbo/
+.codex-run/
+.playwright-mcp/
+coverage/
+
+# Prisma
+packages/database/prisma/*.db
+packages/database/prisma/*.db-journal
+packages/database/prisma/*.db-wal
+packages/database/prisma/*.db-shm
+packages/database/prisma/*.db.bak
+packages/database/prisma/*.sqlite
+packages/database/prisma/*.sqlite-journal
+packages/database/prisma/*.sqlite-wal
+packages/database/prisma/*.sqlite-shm
+
+# Build artifacts
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

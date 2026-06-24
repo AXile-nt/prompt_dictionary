@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Prompt {
+  id              String            @id @default(cuid())
+  title           String
+  description     String            @default("")
+  content         String
+  categoryId      String?
+  category        Category?         @relation(fields: [categoryId], references: [id])
+  source          String            @default("CUSTOM")
+  externalId      String?
+  externalSource  String?
+  targetModels    String            @default("[]")
+  useCases        String            @default("[]")
+  placeholders    String            @default("[]")
+  favorite        Boolean           @default(false)
+  usageCount      Int               @default(0)
+  isArchived      Boolean           @default(false)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  lastUsedAt      DateTime?
+  lastSyncedAt    DateTime?
+
+  tags            PromptTagRelation[]
+  versions        PromptVersion[]
+
+  @@index([categoryId])
+  @@index([source])
+  @@index([favorite])
+  @@index([usageCount])
+  @@index([updatedAt])
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String   @default("")
+  isDefault   Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  prompts Prompt[]
+}
+
+model PromptTag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  prompts PromptTagRelation[]
+}
+
+model PromptTagRelation {
+  promptId String     @map("prompt_id")
+  prompt   Prompt     @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  tagId    String     @map("tag_id")
+  tag      PromptTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([promptId, tagId])
+  @@index([tagId])
+}
+
+model PromptVersion {
+  id            String   @id @default(cuid())
+  promptId      String
+  prompt        Prompt   @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  versionNumber Int
+  title         String
+  description   String   @default("")
+  content       String
+  categoryId    String?
+  tags          String   @default("[]")
+  changeNote    String   @default("")
+  createdAt     DateTime @default(now())
+
+  @@unique([promptId, versionNumber])
+  @@index([promptId])
+}
+
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model ImportJob {
+  id             String       @id @default(cuid())
+  filename       String
+  status         String       @default("PENDING")
+  totalItems     Int          @default(0)
+  importedItems  Int          @default(0)
+  failedItems    Int          @default(0)
+  errorMessage   String?
+  createdAt      DateTime     @default(now())
+  finishedAt     DateTime?
+}
