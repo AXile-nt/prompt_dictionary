@@ -4,6 +4,9 @@ dist/
 *.local
 .turbo/
 .codex-run/
+.codex/
+.agents/
+.claude/
 .playwright-mcp/
 coverage/
 
@@ -35,3 +38,10 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Local release artifacts
+release/
+*.zip
+*.7z
+*.rar
+*.exe

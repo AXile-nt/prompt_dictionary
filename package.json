@@ -3,6 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "description": "Local-first prompt management tool for software developers",
+  "license": "MIT",
+  "homepage": "https://github.com/AXile-nt/prompt_dictionary#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AXile-nt/prompt_dictionary.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AXile-nt/prompt_dictionary/issues"
+  },
+  "keywords": [
+    "prompt",
+    "prompt-management",
+    "ai",
+    "react",
+    "vite",
+    "express",
+    "prisma",
+    "sqlite"
+  ],
   "scripts": {
     "setup:local": "node scripts/setup-local.mjs",
     "dev": "turbo dev",
