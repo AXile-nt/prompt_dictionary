@@ -79,7 +79,7 @@ LOCAL_PROMPT_DIR=
 
 - `DATABASE_URL=file:./dev.db` 指向 `packages/database/prisma/dev.db`。
 - `AI_*` 为空时，应用仍可正常使用，只是不会调用在线 AI 分类和优化。
-- `LOCAL_PROMPT_DIR` 只在本机使用，发布仓库时应保持为空。
+- `LOCAL_PROMPT_DIR` 可填写本地提示词目录；不填写时不会自动导入。
 - Windows 中文路径下，`setup-local.mjs` 会自动使用临时 ASCII 路径处理 Prisma 初始化。
 
 ## 常用命令
@@ -117,45 +117,11 @@ apps/web                 React/Vite 前端应用
 apps/server              Express API、导入、同步和 AI 服务
 packages/shared          共享 TypeScript 类型和常量
 packages/database        Prisma schema、迁移和数据库客户端
-docs                     项目说明、隐私说明和发布素材
+docs                     项目说明和封面素材
 scripts                  本地初始化脚本
 ```
 
-## 隐私与安全
-
-本仓库按本地优先方式整理，发布内容不应包含个人提示词、API Key、SQLite 数据库或机器路径。
-
-默认忽略：
-
-- `.env`
-- `node_modules/`
-- `dist/`
-- `.turbo/`
-- `.codex-run/`
-- `.playwright-mcp/`
-- `packages/database/prisma/*.db`
-- `packages/database/prisma/*.sqlite`
-- 日志、临时文件和本地 IDE 配置
-
-发布或 fork 前建议阅读：
-
-- [隐私说明](docs/PRIVACY.md)
-- [项目说明](docs/PROJECT.md)
-
-## GitHub 发布检查
-
-```bash
-pnpm lint
-pnpm build
-rg -n "USERPROFILE|HOME|API_KEY=.+|sk-[A-Za-z0-9]|LOCAL_PROMPT_DIR=.+" .
-Get-ChildItem packages/database/prisma -Include *.db,*.db.bak,*.sqlite -Recurse
-```
-
-预期结果：
-
-- `pnpm lint` 和 `pnpm build` 通过。
-- 不提交 `.env`、SQLite 数据库、个人 prompt 目录、API Key、缓存或构建产物。
-- Release 使用 GitHub CLI 创建，源码包使用 `git archive` 生成。
+更多实现说明见 [docs/PROJECT.md](docs/PROJECT.md)。
 
 ## License
 
